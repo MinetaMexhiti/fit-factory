@@ -12,13 +12,10 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 
-
-app.use('/api/users', userRoutes);
-app.use('/api/orders', authMiddleware, orderRoutes); // Applying authMiddleware 
-app.use(authMiddleware); // Ensuring that authMiddleware is applied after necessary routes
-app.use('/api/products', productRoutes);
-
-
+// Route configuration
+app.use('/api/users', userRoutes); // No authMiddleware for user routes if they include login/registration
+app.use('/api/orders', authMiddleware, orderRoutes); // Applying authMiddleware only for order routes
+app.use('/api/products', productRoutes); // No authMiddleware here so all users can access products
 
 // Connecting to the database (using the pool)
 db.getConnection()
