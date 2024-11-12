@@ -1,25 +1,29 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import AboutUs from './pages/AboutUs';
 import ProductDetails from './pages/ProductDetails';
-import Auth from './components/Auth'; 
-import ProtectedRoute from './components/ProtectedRoute'; 
-import Dashboard from './components/Dashboard'; 
-
+import Auth from './components/Auth';
+import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './components/Dashboard';
 
 function App() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/login" render={() => <Auth type="login" />} />
-        <Route path="/register" render={() => <Auth type="register" />} />
-        {/* Protected route */}
-        <ProtectedRoute path="/dashboard" component={Dashboard} />
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutUs />} /> {/* Add AboutUs component */}
+        <Route path="/product/:id" element={<ProductDetails />} />
+        
+        {/* Auth routes */}
+        <Route path="/login" element={<Auth type="login" />} />
+        <Route path="/register" element={<Auth type="register" />} />
+        
+        {/* Protected route for dashboard */}
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
