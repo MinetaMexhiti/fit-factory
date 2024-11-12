@@ -1,5 +1,5 @@
 const express = require('express');
-const authMiddleware = require('./middleware/authmiddleware');
+const { authenticateToken, authorizeRole } = require('./middleware/authMiddleware');
 const db = require('./db'); 
 require('dotenv').config();
 const productRoutes = require('./routes/productRoutes');
@@ -13,16 +13,16 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Route configuration
-app.use('/api/users', userRoutes); // No authMiddleware for user routes if they include login/registration
-app.use('/api/orders', authMiddleware, orderRoutes); // Applying authMiddleware only for order routes
-app.use('/api/products', productRoutes); // No authMiddleware here so all users can access products
+app.use('/api/users', userRoutes); 
+app.use('/api/orders', authenticateToken, orderRoutes); // Applying authenticateToken for order routes
+app.use('/api/products', productRoutes); 
 
 // Connecting to the database (using the pool)
 db.getConnection()
     .then(connection => {
         console.log('Connected to the MySQL database.');
 
-        // To start the server only after the DB connection is successful
+        // Start the server only after the DB connection is successful
         app.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
         });

@@ -1,4 +1,3 @@
- // controllers/productController.js
 const connection = require('../server'); 
 
 // Get all products

@@ -210,3 +210,88 @@
   "error": "Error message"
 }
 ```
+
+# WT Token Authorization
+
+# Access Admin-Only Routes
+
+Endpoint: GET /users/admin
+Description: Access protected admin route after logging in.
+Request Header:
+Authorization: Bearer JWT_TOKEN
+Response:
+
+```json
+200 OK: Access granted to admin route.
+{
+  "message": "Welcome Admin! You have access to this route."
+}
+403 Forbidden: If the user does not have admin role.
+{
+  "error": "You do not have permission to perform this action"
+}
+```
+
+# Advanced Product Search
+
+Search Products
+Endpoint: GET /products/search
+Description: Search for products by multiple filters such as category, brand, price, size, etc.
+Request Parameters:
+gender (optional)
+category_id (optional)
+brand_id (optional)
+price_min (optional)
+price_max (optional)
+size (optional)
+Response:
+
+```json
+200 OK: List of filtered products.
+[
+  {
+    "id": "integer",
+    "name": "string",
+    "description": "string",
+    "price": "number",
+    "discount": "number",
+    "gender": "string",
+    "quantity": "integer",
+    "category_id": "integer",
+    "brand_id": "integer",
+    "color_id": "integer",
+    "size_id": "integer"
+  }
+]
+
+```
+
+# Real-Time Product Quantity Tracking
+
+Get Product Quantity
+Endpoint: GET /products/:id/quantity
+Description: Get the current stock level of a product.
+Response:
+
+```json
+200 OK: Current available quantity of the product.
+{
+  "product_id": "integer",
+  "name": "string",
+  "initial_quantity": "integer",
+  "sold_quantity": "integer",
+  "current_quantity": "integer"
+}
+404 Not Found: If the product does not exist.
+
+```
+
+# Error Handling
+
+All responses with errors will include an error message in the format:
+
+```json
+{
+  "error": "Error message"
+}
+```
