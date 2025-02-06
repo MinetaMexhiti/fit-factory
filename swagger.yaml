@@ -1,0 +1,344 @@
+openapi: 3.0.0
+info:
+  title: Fit Factory API
+  description: API documentation for the Fit Factory clothing store
+  version: 1.0.0
+paths:
+  /api/v1/products:
+    get:
+      summary: Get all products
+      description: Fetch a list of all products in the store, with optional pagination and filtering by category, price, etc.
+      parameters:
+        - name: page
+          in: query
+          description: The page number for pagination
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: category
+          in: query
+          description: Filter products by category ID
+          required: false
+          schema:
+            type: integer
+        - name: min_price
+          in: query
+          description: Filter products with a minimum price
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: max_price
+          in: query
+          description: Filter products with a maximum price
+          required: false
+          schema:
+            type: number
+            format: float
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    price:
+                      type: string
+                    image:
+                      type: string
+                    discount:
+                      type: string
+                    gender:
+                      type: string
+                    quantity:
+                      type: integer
+                    category_id:
+                      type: integer
+                    brand_id:
+                      type: integer
+                    color_id:
+                      type: integer
+                    size_id:
+                      type: integer
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+        "400":
+          description: Invalid pagination or filter parameters
+        "500":
+          description: Internal server error
+
+    post:
+      summary: Add a new product
+      description: Create a new product in the store. Requires admin authentication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: string
+                image:
+                  type: string
+                discount:
+                  type: string
+                gender:
+                  type: string
+                quantity:
+                  type: integer
+                category_id:
+                  type: integer
+                brand_id:
+                  type: integer
+                color_id:
+                  type: integer
+                size_id:
+                  type: integer
+      responses:
+        "201":
+          description: Product successfully created
+        "400":
+          description: Invalid data or missing required fields
+        "401":
+          description: Unauthorized access
+        "500":
+          description: Internal server error
+
+  /api/v1/products/{id}:
+    get:
+      summary: Get product by ID
+      description: Retrieve a specific product by its ID
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the product
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  price:
+                    type: string
+                  image:
+                    type: string
+                  discount:
+                    type: string
+                  gender:
+                    type: string
+                  quantity:
+                    type: integer
+                  category_id:
+                    type: integer
+                  brand_id:
+                    type: integer
+                  color_id:
+                    type: integer
+                  size_id:
+                    type: integer
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+        "404":
+          description: Product not found
+        "500":
+          description: Internal server error
+
+    put:
+      summary: Update product by ID
+      description: Update the details of an existing product by its ID. Requires admin authentication.
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the product to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: string
+                image:
+                  type: string
+                discount:
+                  type: string
+                gender:
+                  type: string
+                quantity:
+                  type: integer
+                category_id:
+                  type: integer
+                brand_id:
+                  type: integer
+                color_id:
+                  type: integer
+                size_id:
+                  type: integer
+      responses:
+        "200":
+          description: Product successfully updated
+        "400":
+          description: Invalid data or missing required fields
+        "401":
+          description: Unauthorized access
+        "404":
+          description: Product not found
+        "500":
+          description: Internal server error
+
+    delete:
+      summary: Delete product by ID
+      description: Delete a specific product by its ID. Requires admin authentication.
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the product to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Product successfully deleted
+        "404":
+          description: Product not found
+        "500":
+          description: Internal server error
+
+  /api/v1/products/search:
+    get:
+      summary: Search for products by name
+      description: Search for products in the store by their name. Allows filtering by price range and pagination.
+      parameters:
+        - name: query
+          in: query
+          description: The search query for the product name
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: The page number for pagination
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: priceRange
+          in: query
+          description: Price range filter in the format "min-max"
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of products matching the search query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    price:
+                      type: string
+                    image:
+                      type: string
+                    discount:
+                      type: string
+                    gender:
+                      type: string
+                    quantity:
+                      type: integer
+                    category_id:
+                      type: integer
+                    brand_id:
+                      type: integer
+                    color_id:
+                      type: integer
+                    size_id:
+                      type: integer
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+        "404":
+          description: No products found
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: string
+        image:
+          type: string
+        discount:
+          type: string
+        gender:
+          type: string
+        quantity:
+          type: integer
+        category_id:
+          type: integer
+        brand_id:
+          type: integer
+        color_id:
+          type: integer
+        size_id:
+          type: integer
+        created_at:
+          type: string
+        updated_at:
+          type: string

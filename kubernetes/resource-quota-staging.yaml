@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: staging-resource-quota
+  namespace: staging
+spec:
+  hard:
+    requests.cpu: "2" # Limit the CPU requests to 2 cores
+    requests.memory: "4Gi" i
+    limits.cpu: "2" # Limit the CPU usage to 2 cores
+    limits.memory: "4Gi" # Limit the memory usage to 4Gi
