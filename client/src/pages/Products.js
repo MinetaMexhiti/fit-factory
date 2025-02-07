@@ -141,16 +141,14 @@ const Products = () => {
   }, []);
 
   const addToCart = async (product) => {
-    console.log('Adding to cart:', { productId: product.id, quantity: 1 });
-  
+    console.log('Adding to cart:', { productId: product.id, quantity: 1 });  // Check if the product ID is correct
+    
     try {
       const token = localStorage.getItem('token');
       if (!token) {
         alert('You must be logged in to add items to the cart.');
         return;
       }
-  
-      console.log('Authorization Header:', `Bearer ${token}`);
   
       const response = await axios.post(
         'http://localhost:3000/api/cart',
