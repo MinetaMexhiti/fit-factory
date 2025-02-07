@@ -1,7 +1,6 @@
-require('dotenv').config(); 
+require('dotenv').config({ path: '../.env' }); 
 console.log('JWT_SECRET:', process.env.JWT_SECRET);  
 console.log('Loaded Environment Variables:', process.env);  
-
 
 const express = require('express');
 const cors = require('cors');
@@ -10,9 +9,7 @@ const db = require('./db');
 const path = require('path');
 const rateLimit = require('express-rate-limit'); // express-rate-limit
 
-
 const app = express();
-
 
 console.log(process.env); 
 
@@ -72,6 +69,9 @@ const swaggerSpec = swaggerJSDoc(swaggerOptions);
 // Middleware
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
+
+// Serve static files from the React app build directory
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 app.use('/api/v1/products', productRoutesV1); 
 app.use('/api/v2/products', productRoutesV2); 

@@ -13,6 +13,8 @@ exports.getCartItems = async (req, res) => {
       [userId]
     );
 
+    console.log('Fetched Cart Items:', cartItems);
+
     if (cartItems.length === 0) {
       return res.status(404).json({ message: 'No items in cart.' });
     }
@@ -37,12 +39,16 @@ exports.addToCart = async (req, res) => {
   try {
     const [productExists] = await db.query('SELECT * FROM products WHERE id = ?', [productId]);
 
+    console.log('Product exists:', productExists);
+    
     if (productExists.length === 0) {
       return res.status(400).json({ message: 'Product does not exist.' });
     }
 
     const [existingItem] = await db.query('SELECT * FROM carts WHERE user_id = ? AND product_id = ?', [userId, productId]);
 
+    console.log('Existing cart item:', existingItem);
+    
     if (existingItem.length > 0) {
       await db.query('UPDATE carts SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?', [quantity, userId, productId]);
     } else {
@@ -56,7 +62,6 @@ exports.addToCart = async (req, res) => {
     res.status(500).json({ message: 'Failed to add item to cart', error: err.message });
   }
 };
-
 
 exports.updateCartItem = async (req, res) => {
   const { quantity } = req.body;
