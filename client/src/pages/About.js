@@ -1,18 +1,22 @@
 import React from 'react';
 
+import Hro2img from '../assets/images/Hro2img.png';
+import gymEqu from '../assets/images/gymEqu.png';
+
 import storyimg from '../assets/images/storyimg.png';
 import mission from '../assets/images/mission.png';
 import about from '../assets/images/about.png';
 import sustainability from '../assets/images/sustainability.png';
 import athletic from '../assets/images/athletic.png';
 
+
 function About() {
   return (
     <div className="bg-gray-100 min-h-screen font-sans">
-      {/* Hero Section with Woman Image */}
+      {/* Hero Section  */}
       <div className="relative h-96 overflow-hidden">
         <img 
-          src={athletic} 
+          src={Hro2img} 
           alt="About Us" 
           className="object-cover w-full h-full" 
         />
@@ -54,7 +58,7 @@ Join us at Fit Factory and discover more than a brand. Discover a community, a l
 
         {/*  Mission */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <img src={mission} alt="Our Mission" className="w-full h-48 object-cover mb-4 rounded-lg" />
+          <img src={gymEqu} alt="Our Mission" className="w-full h-48 object-cover mb-4 rounded-lg" />
           <h2 className="text-2xl font-semibold mb-2">Our Mission</h2>
           <p className="text-gray-600">
             We inspire confidence and encourage everyone to push beyond limits, creating products that align with these values.

@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 
-const Filter = ({ onFilterChange }) => {
+const Filter = ({ onFilterChange }) => { //tores the current filter values (category, brand, price range, size). 
     const [filters, setFilters] = useState({
-        category: '',
+        category: '', //indicates no filter are applied 
         brand: '',
         minPrice: '',
         maxPrice: '',
         size: '',
     });
-
+ 
+    //This function is triggered whenever the user changes a filter value 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target; //Refers to the input element that was changed 
         const newFilters = { ...filters, [name]: value };
         setFilters(newFilters);
         onFilterChange(newFilters);

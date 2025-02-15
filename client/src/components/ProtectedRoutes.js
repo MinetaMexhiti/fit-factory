@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode'; //A library to decode JWT tokens
 
+
+
+//Represents the content (such as components or elements) wrapped inside the ProtectedRoute component.
 function ProtectedRoute({ children, roleRequired }) {
   const navigate = useNavigate();
-  const [role, setRole] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [role, setRole] = useState(null); //Stores the decoded user role from the JWT token //Updates the role state after decoding the JWT toke
+  const [isLoading, setIsLoading] = useState(true); //Tracks the loading state to determine if the component is still processing the token or ready to render the children
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -24,6 +27,7 @@ function ProtectedRoute({ children, roleRequired }) {
         return navigate('/login');
       }
 
+      //if correct set role 
       setRole(decoded.role_id);
     } catch (error) {
       console.error('Failed to decode token:', error.message);

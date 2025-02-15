@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import axios from './axios'; // Your configured Axios instance
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(''); // Updates the username state whenever the user types in the username field 
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); //Used to update the error state with an error message
   const [loading, setLoading] = useState(false);
 
+
+  //This is an asynchronous function that handles the form submission when the user clicks the login button
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //Prevents the default form submission behavior  , reloading the page  
     setLoading(true);
     setError('');
 

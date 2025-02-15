@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './App.css'; // Ensure that App.css is in the same directory as App.js
-
+import './App.css'; 
 import NotAuthorized from './components/NotAuthorized';
 import ProtectedRoute from './components/ProtectedRoutes';
 import Dashboard from './components/Dashboard';
@@ -28,6 +27,8 @@ import Checkout from './pages/Checkout';
 
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
+////Uses ProtectedRoute to ensure the user is authenticated and authorized 
+//Defines different routes and the components associated with them
 function App() {
   return (
     <Router>
@@ -47,12 +48,13 @@ function App() {
           <Route path="/cartitems" element={<CartItem />} />
           <Route path="/men" element={<Men />} />
           <Route path="/women" element={<Women />} />
-          <Route path="/kids" element={<Kids />} />
+          <Route path="/products/kids" component={Kids} />
           <Route path="/new-featured" element={<Featured />} />
           <Route path="/our-story" element={<OurStory />} />
           <Route path="/checkout" element={<Checkout />} />
 
-          {/* User Routes */}
+
+
           <Route
             path="/profile"
             element={

@@ -1,21 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+//They are used for displaying icons like the right arrow and stars
 import { FaArrowRight, FaStar } from 'react-icons/fa';
-
 import nikelogo from '../assets/images/nikelogo.png';
 import adidaslogo from '../assets/images/adidaslogo.png';
 import pumaLogo from '../assets/images/puma.png';
 import ualogo from '../assets/images/ualogo.png';
-
 import puma from '../assets/images/puma.png'; // adjust the path based on your project structure
 import runn2 from '../assets/images/runn2.png';
 import clothesfitnees from '../assets/images/clothesfitnees.png';
 import outdoor from '../assets/images/outdoor.png';
 import yoga from '../assets/images/yoga.png';
-
-
 import GymEqu from '../assets/images/gymEqu.png';
 
+
+//An array containing brand
 const ExploreBrands = () => {
   const brands = [
     { name: 'Nike', description: 'Innovative sportswear and footwear.', logo: nikelogo },

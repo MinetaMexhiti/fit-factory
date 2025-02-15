@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const AccountSettings = () => {
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState('profile'); //Keeps track of the currently selected tab (profile or security).
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //Tracks whether the component is still loading the user data from the API.
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        //he JWT token is fetched from localStorage and passed as an Authorization header to authenticate the request
         const response = await axios.get('/users/me', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         
+        //successful
         setUser(response.data);
       } catch (err) {
         setError('Failed to load user details.');
@@ -23,6 +25,8 @@ const AccountSettings = () => {
     fetchUser();
   }, []);
 
+
+  //This function is called when the user clicks on "Save Changes"
   const handleProfileUpdate = async () => {
     try {
       await axios.put('/users/me', user, {

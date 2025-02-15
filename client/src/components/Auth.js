@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 const Auth = ({ type }) => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(''); //: Holds the value of the username entered by the use
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState(''); 
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (e) => { //when the user clicks the login or register button.
+    e.preventDefault(); //prevents the default form submission, which would reload the page.
+ 
+    //If the type is 'login', it uses the login API endpoint pr another  
     const data = { username, password };
     const url = type === 'login' 
   ? 'http://localhost:3000/api/users/login' 

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 
 const MyOrders = () => {
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null); //Stores the order that is selected by the user (used to display the detailed order information in a modal).
 
+  //This is an array of order objects containing  , static butreal would come from the api 
   const orders = [
     { id: 1, date: '2024-01-12', total: '$120', status: 'Delivered' },
     { id: 2, date: '2024-01-15', total: '$85', status: 'Processing' },
     { id: 3, date: '2024-01-18', total: '$60', status: 'Cancelled' },
   ];
+ 
 
+  //This function is triggered when the user clicks the "View" button for a specific order. 
   const handleViewOrder = (order) => {
     setSelectedOrder(order); 
   };

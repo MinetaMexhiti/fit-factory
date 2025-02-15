@@ -5,6 +5,8 @@ const { authenticateToken, authorizeRole } = require('../middleware/authmiddlewa
 
 const { getProductById, getAllProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 
+
+//fetches all products but adds pagination using the page and limit query parameters
 /**
  * @swagger
  * /api/v2/products:
@@ -62,14 +64,24 @@ const { getProductById, getAllProducts, addProduct, updateProduct, deleteProduct
  *                   updated_at:
  *                     type: string
  */
-router.get('/', async (req, res) => {
-  const page = req.query.page || 1;
-  const limit = 10;
-  const offset = (page - 1) * limit;
 
+
+//pagination and filtering logic works based on the available products in the database. 
+router.get('/', async (req, res) => {
+  const page = req.query.page || 1; //specifies which page of results to return.
+  const limit = 10;  //defines how many products per page should be returned (default is 10). 
+  const offset = (page - 1) * limit;
   try {
-    const [products] = await db.query('SELECT * FROM products LIMIT ? OFFSET ?', [limit, offset]);
-    res.json(products);
+  if (products.length === 0) {
+    return res.status(404).json({ message: 'No products found on this page.' });
+  }
+  
+  res.json(products); 
+
+
+  //try {
+    //const [products] = await db.query('SELECT * FROM products LIMIT ? OFFSET ?', [limit, offset]);
+    //res.json(products);
   } catch (err) {
     console.error('Error fetching products:', err.message);
     res.status(500).json({ message: 'Error fetching products', error: err.message });
@@ -111,22 +123,25 @@ router.get('/', async (req, res) => {
  *       404:
  *         description: No products found
  */
+
+//allows searching for products by name with optional price range filtering and pagination
 router.get('/search', async (req, res) => {
-  const { query, page = 1, priceRange } = req.query;
-  const limit = 10;
+  const { query, page = 1, priceRange } = req.query; //// Extract the search query, 
+  const limit = 10; //// Default limit for products per page
   const offset = (page - 1) * limit;
 
-  let sql = 'SELECT * FROM products WHERE name LIKE ?';
-  let params = [`%${query}%`];
+  let sql = 'SELECT * FROM products p JOIN brands b ON p.brand_id = b.id WHERE p.name LIKE ?';
+  let params = [`%${query}%`]; //// Search query to match product name
 
   if (priceRange) {
-    sql += ' AND price BETWEEN ? AND ?';
+    // /modifies the SQL query to add a condition that filters products by price
+    sql += ' AND p.price BETWEEN ? AND ?';
     const [min, max] = priceRange.split('-');
-    params.push(min, max);
+    params.push(min, max); //// Add price range values to the query parameters
   }
 
-  sql += ' LIMIT ? OFFSET ?';
-  params.push(limit, offset);
+  sql += ' LIMIT ? OFFSET ?'; // Apply pagination
+  params.push(limit, offset);//offset to the query parameters
 
   try {
     const [products] = await db.query(sql, params);

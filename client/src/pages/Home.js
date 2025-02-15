@@ -1,3 +1,5 @@
+
+// is used to create and manage state within the component // is used to run side effects, such as checking if the user is authenticated when the component mounts.
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -15,12 +17,16 @@ import adidas1 from '../assets/images/adidas1.png';
 
 
 const Home = () => {
+  //checks if user is logged in 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [language, setLanguage] = useState('en');
+  // Stores the user data
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
+
+  //first we check token in localStorage
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -29,6 +35,8 @@ const Home = () => {
     }
   }, []);
 
+
+  //updates the language state 
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
@@ -40,12 +48,15 @@ const Home = () => {
     navigate('/'); 
   };
 
+
+  //profile dropdown to view the profile or logout
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
   };
 
   const sliderSettings = {
     dots: true,
+    //Makes the carousel loop infinitely.
     infinite: true,
     speed: 500,
     slidesToShow: 3,

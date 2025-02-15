@@ -4,11 +4,16 @@ import axios from "axios";
 import { FaSearch, FaHeart, FaShoppingCart } from "react-icons/fa";
 
 const Checkout = () => {
+
+  //Stores the list of items in the user's cart.
   const [cartItems, setCartItems] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(0); //Stores the total price of the cart.
   const navigate = useNavigate();
 
-  useEffect(() => {
+
+  //Runs when the component mounts.
+  useEffect(() => { 
+    //Asynchronously fetches the cart items using axios with the token 
     const fetchCartItems = async () => {
       try {
         const token = localStorage.getItem("token");

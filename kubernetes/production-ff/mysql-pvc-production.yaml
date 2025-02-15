@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc-production
+  namespace: production-ff
+spec:
+  accessModes:
+    - ReadWriteOnce # Allows the pod to read/write to the volume
+  resources:
+    requests:
+      storage: 10Gi # Adjust this size to meet your storage requirements
+  storageClassName: standard # Should match the storage class used in PV

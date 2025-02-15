@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+//The Bar chart component from Chart.js, used to display visual data activity overview
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { FaShoppingCart, FaHeart, FaClipboardList, FaCog } from 'react-icons/fa';
 
 const UserProfile = () => {
+  //Stores the user profile data fetched from the backend
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('personalInfo');
+  const [activeTab, setActiveTab] = useState('personalInfo'); //currently active tab orders personal info , whishlist 
   const [error, setError] = useState('');
   const [chartData, setChartData] = useState(null);
 
+
+  //check for token in localStorage is it exists 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -20,7 +24,9 @@ const UserProfile = () => {
           return;
         }
   
+        //if token exists it sends a GET request to the server and returns the token value as a string
         console.log('Token used:', token);
+        //
         const response = await axios.get('http://localhost:3000/api/users/me', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -28,7 +34,7 @@ const UserProfile = () => {
         });
         console.log('Response from /me:', response.data);
         
-  
+  //If the request is successful, it stores the user data in the user state 
         console.log('User profile response:', response.data);
         setUser(response.data);
       } catch (err) {
@@ -40,16 +46,19 @@ const UserProfile = () => {
     fetchUserProfile();
   }, []);
   
-
+//If there's an error ex no token or failed request, the component will display the error message in red.
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
   }
-
+ //If user data is not loaded yet, it shows a loading message until the profile is fetched.
   if (!user) {
     return <div className="text-center text-gray-700">Loading...</div>;
   }
 
+
+  //renders the appropriate content like personal info, orders, wishlist, settings.
   const renderTabContent = () => {
+    //Sets the active tab by updating the activeTab state
     switch (activeTab) {
       case 'personalInfo':
         return (

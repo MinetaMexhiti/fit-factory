@@ -8,6 +8,8 @@ exports.getProductById = async (req, res) => {
       if (!product || product.length === 0) {
           return res.status(404).json({ message: 'Product not found' });
       }
+
+      //if nto empty this is returned 
       res.json(product[0]);
   } catch (err) {
       console.error('Error fetching product:', err.message);

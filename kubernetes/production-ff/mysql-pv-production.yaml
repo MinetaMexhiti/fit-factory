@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-production
+  namespace: production-ff
+spec:
+  capacity:
+    storage: 10Gi # Adjust the size as needed for production
+  accessModes:
+    - ReadWriteOnce # This means only one pod can access the volume at a time
+  persistentVolumeReclaimPolicy: Retain # Ensures the volume is retained when PVC is deleted
+  storageClassName: standard # Define the storage class; adjust based on your setup
+  hostPath: # Use hostPath for local storage or choose another method
+    path: "/mnt/data/mysql" # Path to the storage location on the node (use appropriate path for your setup)

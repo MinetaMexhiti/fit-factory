@@ -5,6 +5,9 @@ const { authenticateToken, authorizeRole } = require('../middleware/authmiddlewa
 
 const { getProductById, getAllProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 
+
+//Describes the GET request to retrieve all products in the store.
+//automatically generate interactive API documentation based on the routes
 /**
  * @swagger
  * /api/v1/products:
@@ -71,6 +74,9 @@ router.get('/', getAllProducts);
  *       404:
  *         description: No products found
  */
+
+
+//Search Products by Name
 router.get('/search', async (req, res) => {
   const { query } = req.query;
   console.log('Received search query:', query);
@@ -129,6 +135,8 @@ router.get('/search', async (req, res) => {
  *         description: Invalid input data
  */
 
+
+// Add a New Product only admin can add products
 router.post('/', authenticateToken, authorizeRole(1), async (req, res) => {
   const { name, description, price, image, discount, gender, quantity, category_id, brand_id, color_id, size_id } = req.body;
 
@@ -157,6 +165,10 @@ router.get('/:id', getProductById);
  *       500:
  *         description: Internal server error
  */
+
+
+//Get All Products for Admin
+
 router.get('/admin/products', authenticateToken, authorizeRole(1), async (req, res) => {
   try {
     const [products] = await db.query('SELECT * FROM products');
@@ -166,6 +178,9 @@ router.get('/admin/products', authenticateToken, authorizeRole(1), async (req, r
     res.status(500).send({ error: 'Failed to fetch products' });
   }
 });
+
+
+//Get Random Recommended Products
 router.get('/recommended', async (req, res) => {
   try {
     const [recommendedProducts] = await db.query(
@@ -179,7 +194,6 @@ router.get('/recommended', async (req, res) => {
 });
 
 router.put('/:id', authenticateToken, authorizeRole(1), updateProduct);
-
 router.delete('/:id', authenticateToken, authorizeRole(1), deleteProduct);
 
 module.exports = router;

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+//use effect : fetching data , subscription , eventlisteners
 import { useParams, Link } from 'react-router-dom';
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null); //State to store the product data that will be fetched from the backend.
+  const [loading, setLoading] = useState(true);//if data is being still loading
   const [error, setError] = useState(null);
 
+
+  //Runs when the component first mounts or when the id from the URL changes 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -15,11 +18,13 @@ const ProductDetails = () => {
           throw new Error('Failed to fetch product details');
         }
         const data = await response.json();
+
+        //succesfull 
         setProduct(data);
       } catch (err) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setLoading(false); //finally block, ensuring that the loading state is updated once the fetch operation is complete
       }
     };
 

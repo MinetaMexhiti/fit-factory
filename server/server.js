@@ -1,3 +1,5 @@
+//Loads environment variables from the .env file into process.env 
+
 require('dotenv').config({ path: '../.env' }); 
 console.log('JWT_SECRET:', process.env.JWT_SECRET);  
 console.log('Loaded Environment Variables:', process.env);  
@@ -7,7 +9,7 @@ const cors = require('cors');
 const { authenticateToken } = require('./middleware/authmiddleware');
 const db = require('./db'); 
 const path = require('path');
-const rateLimit = require('express-rate-limit'); // express-rate-limit
+const rateLimit = require('express-rate-limit'); // express-rate-limit  middleware to limit the number of requests
 
 const app = express();
 
@@ -22,9 +24,12 @@ app.use(limiter);
 
 app.use('/favicon.ico', express.static(path.join(__dirname, 'public', 'favicon.ico')));
 
+
+//generate the API documentation from Swagger annotations // UI serves the Swagger documentation as a web page
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
+//import
 const cartRoutes = require('./routes/cartRoutes');
 const productRoutesV1 = require('./routes/productRoutesV1'); 
 const productRoutesV2 = require('./routes/productRoutesV2'); 
@@ -33,6 +38,7 @@ const orderRoutes = require('./routes/orderRoutes');
 
 const PORT = process.env.PORT || 3000;
 
+//swagger configs 
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
@@ -68,11 +74,15 @@ const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 // Middleware
 app.use(express.json());
+//This enables CORS for requests coming
 app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
 
 // Serve static files from the React app build directory
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
+
+
+//define routes 
 app.use('/api/v1/products', productRoutesV1); 
 app.use('/api/v2/products', productRoutesV2); 
 
@@ -80,8 +90,12 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', authenticateToken, orderRoutes);
 app.use('/api/cart', authenticateToken, cartRoutes);
 
+
+//http://localhost:PORT/api-docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+
+//connect to db 
 db.getConnection()
   .then((connection) => {
     console.log('Connected to the MySQL database.');

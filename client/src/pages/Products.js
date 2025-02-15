@@ -72,24 +72,24 @@ const allProducts = [
 
   { id: 21, name: 'Shoes ', price: 160.99, brand: 'Nike', image: nike1 },
 
-  { id: 23, name: 'Nike Shoes', price: 170.99, brand: 'Nike', image: nike2},
-  { id: 24, name: 'Nike Shoes', price: 140.99, brand: 'Nike', image: nike3 },
-  { id: 25, name: 'Nike Shoes', price: 110.99, brand: 'Nike', image: nike4 },
-  { id: 26, name: 'Nike Shoes', price: 110.99, brand: 'Nike', image: nike5 },
-  { id: 27, name: 'Nike ', price: 78.99, brand: 'Nike', image: nike16clothes },
-{ id: 28, name: 'Nike ', price: 67.99, brand: 'Nike', image: nike7Clothes },
-  { id: 31, name: 'Nike ', price: 89.99, brand: 'Nike', image: nike8clothes },
-  { id: 32, name: 'Nike', price: 64.99, brand: 'Nike', image: nike9clothes},
-  { id: 33, name: 'Nike ', price: 99.99, brand: 'Nike', image: nike10clothes },
-  { id: 34, name: 'Nike Shoes', price: 110.99, brand: 'Nike', image: nike11 },
-  { id: 30, name: 'Nike Shoes Rt', price: 154.99, brand: 'Nike', image: nike12 },
-  { id: 40, name: 'Nike ', price: 78.99, brand: 'Nike', image: nike13trenerke },
-  { id: 41, name: 'Nike Leggings', price: 56.99, brand: 'Nike', image: nike14legi},
-  { id: 42, name: 'Nike Shirt', price: 45.99, brand: 'Nike', image: nike15shirt },
-  { id: 43, name: 'Nike', price: 65.99, brand: 'Nike', image: nike16clothes },
-  { id: 44, name: 'Nike Shirt', price: 34.99, brand: 'Nike', image: nike17shirt },
-  { id: 45, name: 'Nike Shoes', price: 110.99, brand: 'Nike', image: nike18 },
-  { id: 46, name: 'Nike Shoes', price: 150.99, brand: 'Nike', image: nike20 },
+  { id: 23, name: 'Nike Shoes1', price: 170.99, brand: 'Nike', image: nike2},
+  { id: 24, name: 'Nike Shoes2', price: 140.99, brand: 'Nike', image: nike3 },
+  { id: 25, name: 'Nike Shoes3', price: 110.99, brand: 'Nike', image: nike4 },
+  { id: 26, name: 'Nike Shoes4', price: 110.99, brand: 'Nike', image: nike5 },
+  { id: 27, name: 'Nike5 ', price: 78.99, brand: 'Nike', image: nike16clothes },
+{ id: 28, name: 'Nike6 ', price: 67.99, brand: 'Nike', image: nike7Clothes },
+  { id: 31, name: 'Nike7 ', price: 89.99, brand: 'Nike', image: nike8clothes },
+  { id: 32, name: 'Nike8', price: 64.99, brand: 'Nike', image: nike9clothes},
+  { id: 33, name: 'Nike9 ', price: 99.99, brand: 'Nike', image: nike10clothes },
+  { id: 34, name: 'Nike Shoes 10', price: 110.99, brand: 'Nike', image: nike11 },
+  { id: 30, name: 'Nike Shoes Rt11', price: 154.99, brand: 'Nike', image: nike12 },
+  { id: 40, name: 'Nike12 ', price: 78.99, brand: 'Nike', image: nike13trenerke },
+  { id: 41, name: 'Nike Leggings13', price: 56.99, brand: 'Nike', image: nike14legi},
+  { id: 42, name: 'Nike Shirt14', price: 45.99, brand: 'Nike', image: nike15shirt },
+  { id: 43, name: 'Nike15', price: 65.99, brand: 'Nike', image: nike16clothes },
+  { id: 44, name: 'Nike Shirt16', price: 34.99, brand: 'Nike', image: nike17shirt },
+  { id: 45, name: 'Nike Shoes17', price: 110.99, brand: 'Nike', image: nike18 },
+  { id: 46, name: 'Nike Shoes18', price: 150.99, brand: 'Nike', image: nike20 },
 
 
 
@@ -110,7 +110,7 @@ const allProducts = [
 
 
 ];
-
+//state variables 
 const Products = () => {
   const [cart, setCart] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -120,7 +120,9 @@ const Products = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [cartCount, setCartCount] = useState(0);
 
-  // Fetch cart count
+
+  
+  // It fetches the cart count (how many items are in the cart) by making a GET request to the /api/cart endpoint.
   useEffect(() => {
     const fetchCartCount = async () => {
       try {
@@ -141,7 +143,7 @@ const Products = () => {
   }, []);
 
   const addToCart = async (product) => {
-    console.log('Adding to cart:', { productId: product.id, quantity: 1 });  // Check if the product ID is correct
+    console.log('Adding to cart:', { productId: product.id, quantity: 1 });  // Log the product ID being passed
     
     try {
       const token = localStorage.getItem('token');
@@ -150,12 +152,16 @@ const Products = () => {
         return;
       }
   
+      // Log the payload being sent to the backend
+      console.log('Sending data to backend:', {
+        productId: product.id,
+        quantity: 1
+      });
+  //if user logged in successfully 
       const response = await axios.post(
         'http://localhost:3000/api/cart',
         { productId: product.id, quantity: 1 },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
   
       console.log('Product added to cart:', response.data);
@@ -174,7 +180,7 @@ const Products = () => {
     }
   };
   
-
+// /If the product is already in the favorites list, it removes it. or if nothing add
   const toggleFavorite = (productId) => {
     setFavorites((prevFavorites) =>
       prevFavorites.includes(productId)
@@ -184,7 +190,7 @@ const Products = () => {
   };
 
   const filteredProducts = allProducts.filter((product) => {
-    const matchesBrand =
+    const matchesBrand =  //Checks if the product matches the selected brand or if "All" brands are selected.
       filteredBrand === 'All' || product.brand === filteredBrand;
     const matchesPrice =
       filteredPriceRange === 'All' ||
@@ -219,6 +225,7 @@ const Products = () => {
               type="text"
               placeholder="Search"
               className="pl-10 pr-4 py-2 border rounded-full focus:outline-none"
+             
             />
           </div>
           <button className="relative">

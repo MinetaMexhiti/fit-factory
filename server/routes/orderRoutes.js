@@ -11,9 +11,13 @@ router.post("/", authenticateToken, async (req, res) => {
     return res.status(400).json({ message: "No items provided for the order." });
   }
 
+  // if items are present  calculatee 
+
   try {
     let total_price = 0;
 
+
+    // For each item in the items array, we get the product_id and quantity
     for (let item of items) {
       const { product_id, quantity } = item;
 
@@ -22,6 +26,7 @@ router.post("/", authenticateToken, async (req, res) => {
         return res.status(404).json({ message: `Product with ID ${product_id} not found.` });
       }
 
+      //if yes calcualte 
       total_price += product[0].price * quantity;
     }
 
@@ -30,11 +35,15 @@ router.post("/", authenticateToken, async (req, res) => {
       [userId, total_price, "Pending"]
     );
 
+
+
+    //Insert the Order Items into the order_items Table
     const orderId = orderResult.insertId;
 
-    for (let item of items) {
-      const { product_id, quantity } = item;
 
+//items 
+    for (let item of cartitems) {
+      const { product_id, quantity } = item;
       await db.query(
         "INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)",
         [orderId, product_id, quantity]

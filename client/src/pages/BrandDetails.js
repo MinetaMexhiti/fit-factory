@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { FaRunning, FaStore, FaChartLine } from 'react-icons/fa';
 
+
+//An object containing data about the brands
 const brandDetails = {
   nike: {
     name: 'Nike',

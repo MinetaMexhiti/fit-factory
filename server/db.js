@@ -1,5 +1,7 @@
 const mysql = require('mysql2/promise');
 
+
+//reuse existing connections
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
